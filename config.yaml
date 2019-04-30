@@ -1,0 +1,4 @@
+selector:
+  forum: '.fl_row .fl_icn+td h2 a'
+  list: '.s.xst'
+  content: 'div[id^=post_]:nth-child(2) td[id^=postmessage_]'
