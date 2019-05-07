@@ -6,7 +6,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func ParseForum(doc *goquery.Document) model.ParseResult {
+func ParseForum(doc *goquery.Document, _ model.Item) model.ParseResult {
 	parseResult := model.ParseResult{}
 	doc.Find(config.Crawler.Selector.Forum).Each(func(i int, selection *goquery.Selection) {
 		url, _ := selection.Attr("href")
@@ -15,7 +15,10 @@ func ParseForum(doc *goquery.Document) model.ParseResult {
 		parseResult.Items = append(parseResult.Items, content)
 		parseResult.Requests = append(parseResult.Requests, model.Request{
 			Url:       url,
-			ParseFunc: ParseList,
+			ParseFunc: ParseSection,
+			Deliver: model.Item{
+				Section: content,
+			},
 		})
 	})
 	return parseResult

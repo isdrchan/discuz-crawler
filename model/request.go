@@ -4,7 +4,8 @@ import "github.com/PuerkitoBio/goquery"
 
 type Request struct {
 	Url       string
-	ParseFunc func(*goquery.Document) ParseResult
+	ParseFunc func(*goquery.Document, Item) ParseResult
+	Deliver   Item
 }
 
 type ParseResult struct {

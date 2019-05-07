@@ -9,15 +9,16 @@ import (
 type CrawlerConfig struct {
 	Selector struct {
 		Forum   string `yaml:"forum"`
-		List    string `yaml:"list"`
+		Section string `yaml:"section"`
 		Content string `yaml:"content"`
 	}
+	Header map[string]string `yaml:"header"`
 }
 
 var Crawler = CrawlerConfig{}
 
 func init() {
-	yamlFile, err := ioutil.ReadFile("c:\\config.yaml")
+	yamlFile, err := ioutil.ReadFile("config.yaml")
 	if err != nil {
 		log.Fatalf("读取yaml配置文件失败: %s ", err)
 	}

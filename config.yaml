@@ -1,4 +1,11 @@
 selector:
   forum: '.fl_row .fl_icn+td h2 a'
-  list: '.s.xst'
+  section: '.s.xst'
   content: 'div[id^=post_]:nth-child(2) td[id^=postmessage_]'
+header:
+  Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
+  Accept-Language: 'zh-CN,zh;q=0.9,en;q=0.8'
+  DNT: '1'
+  Host: 'bbs.kafan.cn'
+  Referer: 'https://bbs.kafan.cn/'
+  User-Agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'

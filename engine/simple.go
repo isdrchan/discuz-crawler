@@ -14,6 +14,7 @@ func (e Simple) Run(seeds ...model.Request) {
 		requests = append(requests, seed)
 	}
 
+	count := 0
 	for len(requests) > 0 {
 		request := requests[0]
 		requests = requests[1:]
@@ -25,7 +26,8 @@ func (e Simple) Run(seeds ...model.Request) {
 		requests = append(requests, parseResult.Requests...)
 
 		for _, item := range parseResult.Items {
-			log.Printf("url: %s, item: %s", request.Url, item)
+			log.Printf("#%d-item: %+v", count, item)
+			count++
 		}
 	}
 }
@@ -35,5 +37,5 @@ func (e Simple) worker(request model.Request) (model.ParseResult, error) {
 	if err != nil {
 		return model.ParseResult{}, err
 	}
-	return request.ParseFunc(doc), nil
+	return request.ParseFunc(doc, request.Deliver), nil
 }

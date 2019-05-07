@@ -2,6 +2,7 @@ package fetcher
 
 import (
 	"bufio"
+	"dicuz-crawler/config"
 	"errors"
 	"github.com/PuerkitoBio/goquery"
 	"golang.org/x/net/html/charset"
@@ -14,7 +15,12 @@ import (
 )
 
 func Fetch(url string) (*goquery.Document, error) {
-	res, err := http.Get(url)
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", url, nil)
+	for k, v := range config.Crawler.Header {
+		req.Header.Add(k, v)
+	}
+	res, err := client.Do(req)
 	if err != nil {
 		log.Printf("请求错误: %s", err.Error())
 		return nil, err
