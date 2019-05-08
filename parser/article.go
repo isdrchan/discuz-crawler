@@ -7,9 +7,9 @@ import (
 	"strings"
 )
 
-func ParseContent(doc *goquery.Document, item model.Item) model.ParseResult {
+func ParseArticle(doc *goquery.Document, item model.Item) model.ParseResult {
 	parseResult := model.ParseResult{}
-	doc.Find(config.Crawler.Selector.Content).Each(func(i int, selection *goquery.Selection) {
+	doc.Find(config.Crawler.Selector.Article).Each(func(i int, selection *goquery.Selection) {
 		content, _ := selection.Html()
 		content = strings.Replace(content, "\n", "", -1)
 		//log.Printf("content: %s", content)

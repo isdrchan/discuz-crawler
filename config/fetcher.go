@@ -8,9 +8,11 @@ import (
 
 type CrawlerConfig struct {
 	Selector struct {
-		Forum   string `yaml:"forum"`
-		Section string `yaml:"section"`
-		Content string `yaml:"content"`
+		Section    string `yaml:"section"`
+		SubSection string `yaml:"subSection"`
+		NextPage   string `yaml:"next_page"`
+		Title      string `yaml:"title"`
+		Article    string `yaml:"article"`
 	}
 	Header map[string]string `yaml:"header"`
 }

@@ -9,7 +9,7 @@ import (
 
 func ParseSection(doc *goquery.Document, item model.Item) model.ParseResult {
 	parseResult := model.ParseResult{}
-	doc.Find(config.Crawler.Selector.Section).Each(func(i int, selection *goquery.Selection) {
+	doc.Find(config.Crawler.Selector.Title).Each(func(i int, selection *goquery.Selection) {
 		content, _ := selection.Html()
 		url, _ := selection.Attr("href")
 		//log.Printf("url: %s, content: %s", url, content)
@@ -23,9 +23,25 @@ func ParseSection(doc *goquery.Document, item model.Item) model.ParseResult {
 		parseResult.Items = append(parseResult.Items, content)
 		parseResult.Requests = append(parseResult.Requests, model.Request{
 			Url:       url,
-			ParseFunc: ParseContent,
+			ParseFunc: ParseArticle,
 			Deliver:   item,
 		})
+	})
+	count := 0
+	doc.Find(config.Crawler.Selector.NextPage).Each(func(i int, selection *goquery.Selection) {
+		if count > 0 {
+			return
+		}
+		url, _ := selection.Attr("href")
+		content := selection.Text()
+		//log.Printf("url: %s, title: %s", url, content)
+		parseResult.Items = append(parseResult.Items, content)
+		parseResult.Requests = append(parseResult.Requests, model.Request{
+			Url:       url,
+			ParseFunc: ParseSection,
+			Deliver:   item,
+		})
+		count++
 	})
 	return parseResult
 }

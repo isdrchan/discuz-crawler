@@ -1,7 +1,16 @@
+# 选择器
 selector:
-  forum: '.fl_row .fl_icn+td h2 a'
-  section: '.s.xst'
-  content: 'div[id^=post_]:nth-child(2) td[id^=postmessage_]'
+  # 板块
+  section: '.fl_tb tr td:nth-child(2) h2 a'
+  # 子版块
+  sub_section: '.fl_tb .fl_g dl dt:nth-child(1) a'
+  # 下一页按钮
+  next_page: '.nxt'
+  # 标题
+  title: '.s.xst'
+  # 文章
+  article: 'div[id^=post_]:nth-child(2) td[id^=postmessage_]'
+# 请求头
 header:
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
   Accept-Language: 'zh-CN,zh;q=0.9,en;q=0.8'
