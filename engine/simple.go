@@ -3,16 +3,21 @@ package engine
 import (
 	"dicuz-crawler/fetcher"
 	"dicuz-crawler/model"
+	"dicuz-crawler/persist"
 	"log"
 )
 
-type Simple struct{}
+type Simple struct {
+	Saver persist.Saver
+}
 
 func (e Simple) Run(seeds ...model.Request) {
 	var requests []model.Request
 	for _, seed := range seeds {
 		requests = append(requests, seed)
 	}
+
+	e.Saver.Init()
 
 	count := 0
 	for len(requests) > 0 {
@@ -27,9 +32,16 @@ func (e Simple) Run(seeds ...model.Request) {
 
 		for _, item := range parseResult.Items {
 			log.Printf("#%d-item: %+v", count, item)
+			item, ok := item.(model.Item)
+			if ok {
+				err := e.Saver.Save(item)
+				log.Printf("数据 %v 保存出错: %s", item, err)
+			}
 			count++
 		}
 	}
+
+	e.Saver.Close()
 }
 
 func (e Simple) worker(request model.Request) (model.ParseResult, error) {

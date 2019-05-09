@@ -22,7 +22,7 @@ var Crawler = CrawlerConfig{}
 func init() {
 	yamlFile, err := ioutil.ReadFile("config.yaml")
 	if err != nil {
-		log.Fatalf("读取yaml配置文件失败: %s ", err)
+		log.Fatalf("读取yaml配置文件config.yaml失败: %s ", err)
 	}
 	err = yaml.Unmarshal(yamlFile, &Crawler)
 	if err != nil {
