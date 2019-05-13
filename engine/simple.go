@@ -35,7 +35,9 @@ func (e Simple) Run(seeds ...model.Request) {
 			item, ok := item.(model.Item)
 			if ok {
 				err := e.Saver.Save(item)
-				log.Printf("数据 %v 保存出错: %s", item, err)
+				if err != nil {
+					log.Printf("数据 %v 保存出错: %s", item, err)
+				}
 			}
 			count++
 		}

@@ -24,10 +24,9 @@ func (f *FileSaver) Init() {
 }
 
 func (f *FileSaver) Save(item model.Item) error {
-	//禁止转义
 	buffer := &bytes.Buffer{}
 	encoder := json.NewEncoder(buffer)
-	encoder.SetEscapeHTML(false)
+	encoder.SetEscapeHTML(false) //禁止转义
 	encoder.Encode(item)
 	_, err := f.File.Write(buffer.Bytes())
 	return err
