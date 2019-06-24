@@ -10,6 +10,7 @@ func ParseForum(doc *goquery.Document, _ model.Item) model.ParseResult {
 	parseResult := model.ParseResult{}
 	doc.Find(config.Crawler.Selector.Section).Each(func(i int, selection *goquery.Selection) {
 		url, _ := selection.Attr("href")
+		url, _ = RelativeToAbsoluteOfUrl(url)
 		content := selection.Text()
 		//log.Printf("url: %s, title: %s", url, content)
 		parseResult.Items = append(parseResult.Items, content)
@@ -23,6 +24,7 @@ func ParseForum(doc *goquery.Document, _ model.Item) model.ParseResult {
 	})
 	doc.Find(config.Crawler.Selector.SubSection).Each(func(i int, selection *goquery.Selection) {
 		url, _ := selection.Attr("href")
+		url, _ = RelativeToAbsoluteOfUrl(url)
 		content := selection.Text()
 		//log.Printf("url: %s, title: %s", url, content)
 		parseResult.Items = append(parseResult.Items, content)

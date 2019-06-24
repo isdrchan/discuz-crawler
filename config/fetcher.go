@@ -7,6 +7,10 @@ import (
 )
 
 type CrawlerConfig struct {
+	Seed struct {
+		Url    string `yaml:"url"`
+		Parser string `yaml:"parser"`
+	}
 	Selector struct {
 		Section    string `yaml:"section"`
 		SubSection string `yaml:"subSection"`

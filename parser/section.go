@@ -7,18 +7,32 @@ import (
 	"regexp"
 )
 
+var IdRe0 = regexp.MustCompile(`/thread-([\d]+)-[\d]+-[\d]+.html`)
+var IdRe1 = regexp.MustCompile(`tid=([\d]+)&`)
+
 func ParseSection(doc *goquery.Document, item model.Item) model.ParseResult {
 	parseResult := model.ParseResult{}
 	doc.Find(config.Crawler.Selector.Title).Each(func(i int, selection *goquery.Selection) {
 		content, _ := selection.Html()
 		url, _ := selection.Attr("href")
 		//log.Printf("url: %s, content: %s", url, content)
+		url, _ = RelativeToAbsoluteOfUrl(url)
 		item.Title = content
 		item.Url = url
-		IdRe := regexp.MustCompile(`/thread-([\d]+)-1-1.html`)
-		match := IdRe.FindSubmatch([]byte(url))
+		match := IdRe0.FindSubmatch([]byte(url))
+		var matchResult string
 		if len(match) >= 2 {
-			item.Id = string(match[1])
+			matchResult = string(match[1])
+			item.Id = matchResult
+		}
+		if len(matchResult) == 0 {
+			match = IdRe1.FindSubmatch([]byte(url))
+			if len(match) >= 2 {
+				matchResult = string(match[1])
+				item.Id = matchResult
+			} else {
+				item.Id = "-"
+			}
 		}
 		parseResult.Items = append(parseResult.Items, content)
 		parseResult.Requests = append(parseResult.Requests, model.Request{
@@ -34,6 +48,7 @@ func ParseSection(doc *goquery.Document, item model.Item) model.ParseResult {
 		}
 		url, _ := selection.Attr("href")
 		content := selection.Text()
+		url, _ = RelativeToAbsoluteOfUrl(url)
 		//log.Printf("url: %s, title: %s", url, content)
 		parseResult.Items = append(parseResult.Items, content)
 		parseResult.Requests = append(parseResult.Requests, model.Request{

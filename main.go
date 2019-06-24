@@ -1,6 +1,7 @@
 package main
 
 import (
+	"dicuz-crawler/config"
 	"dicuz-crawler/engine"
 	"dicuz-crawler/model"
 	"dicuz-crawler/parser"
@@ -11,8 +12,12 @@ func main() {
 	e := engine.Simple{
 		Saver: &persist.FileSaver{},
 	}
+	//e := engine.Concurrent{
+	//	Saver: &persist.FileSaver{},
+	//	WorkerCount: 1,
+	//}
 	e.Run(model.Request{
-		Url:       "https://bbs.kafan.cn/forum.php",
-		ParseFunc: parser.ParseForum,
+		Url:       config.Crawler.Seed.Url,
+		ParseFunc: parser.StrToFuncOfParser(config.Crawler.Seed.Parser),
 	})
 }
